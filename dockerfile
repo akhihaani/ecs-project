@@ -31,15 +31,6 @@ RUN --mount=type=cache,target=/root/.pnpm-store \
 # The mount is a buildKit feature, we are keeping this cache the same between builds
 # so every subsequent time we build the image this cache stays
 
-COPY web ./web
-# Copied folder 'web' into container file system
-# This was the only folder needed for pnpm dependencies, hence the 'web' name since it's about files for the website
-
-RUN cd web && pnpm release
-# Turn dependencies into static files, rest of 'web' folder was needed for this
-# so this command was ran after copying that
-# Also this way, if web folder changes we don't need to reinstall dependencies
-
 COPY go.mod go.sum ./
 # go.mod and go.sum are the dependency files for Go, like requirements.txt for pip
 RUN --mount=type=cache,target=/root/.cache/go/pkg/mod \
@@ -49,6 +40,11 @@ RUN --mount=type=cache,target=/root/.cache/go/pkg/mod \
 
 COPY . .
 # Copy rest of memos repo (needed for binary compilation)
+
+RUN cd web && pnpm release
+# Turn dependencies into static files, rest of 'web' folder was needed for this
+# so this command was ran after copying that
+# Also this way, if web folder changes we don't need to reinstall dependencies
 
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o build/memos ./cmd/memos
 # create binary file using input from './cmd/memos' and output 'build/memos'
