@@ -5,3 +5,7 @@ output "memos_name_servers" {
 output "memos_lb_logs_bucket_id" {
   value = aws_s3_bucket.memos_lb_logs_bucket_id.id
 }
+
+output "memos_repo_url" {
+  value = aws_ecr_repository.memos_repo.repository_url
+}

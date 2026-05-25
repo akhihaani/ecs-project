@@ -101,6 +101,19 @@ resource "aws_route53_zone" "memos_hosted_zone" {
   tags = local.tags
 }
 
+# ECR Repository
+
+resource "aws_ecr_repository" "memos_repo" {
+  name                 = "memos"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = local.tags
+}
+
 # OIDC
 
 resource "aws_iam_openid_connect_provider" "memos_oidc_provider" {
@@ -145,6 +158,3 @@ resource "aws_iam_role_policy_attachment" "memos_github_role_attach" {
   role       = aws_iam_role.memos_github_role.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
-
-# TODO: scope down via CloudTrail + Access Analyzer (steps 3-5).
-# Using AdministratorAccess for first CI runs.

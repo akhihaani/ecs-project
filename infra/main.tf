@@ -35,17 +35,11 @@ module "alb" {
   memos_lb_logs        = data.terraform_remote_state.bootstrap_outputs.outputs.memos_lb_logs_bucket_id
 }
 
-module "ecr" {
-  source = "./modules/ecr"
-
-  tags = local.tags
-}
-
 module "ecs" {
   source = "./modules/ecs"
 
   tags                      = local.tags
-  memos_repo_url            = module.ecr.memos_repo_url
+  memos_repo_url            = data.terraform_remote_state.bootstrap_outputs.outputs.memos_repo_url
   memos_lb_target_group_arn = module.alb.memos_lb_target_group_arn
   memos_ecs_task_sg         = module.vpc.memos_ecs_task_sg
   memos_public_subnets      = module.vpc.memos_public_subnets
