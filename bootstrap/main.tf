@@ -154,7 +154,12 @@ resource "aws_iam_role" "memos_github_role" {
   tags = local.tags
 }
 
-resource "aws_iam_role_policy_attachment" "memos_github_role_attach" {
+resource "aws_iam_policy" "memos_github_tight_policy" {
+  name   = "memos_github_tight_policy"
+  policy = file("github-tight-policy.json")
+}
+
+resource "aws_iam_role_policy_attachment" "memos_github_tight_policy_attach" {
   role       = aws_iam_role.memos_github_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  policy_arn = aws_iam_policy.memos_github_tight_policy.arn
 }
