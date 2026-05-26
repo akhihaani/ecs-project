@@ -89,10 +89,10 @@
 			"Effect": "Allow",
 			"Action": [
 				"ec2:AssociateRouteTable",
+				"ec2:DisassociateRouteTable",
 				"ec2:CreateRoute",
 				"ec2:CreateRouteTable",
-				"ec2:DeleteRouteTable",
-				"ec2:DisassociateRouteTable"
+				"ec2:DeleteRouteTable"
 			],
 			"Resource": "arn:aws:ec2:eu-west-2:310829530244:route-table/*"
 		},
@@ -113,7 +113,9 @@
 			"Action": [
 				"ec2:CreateSubnet",
 				"ec2:DeleteSubnet",
-				"ec2:ModifySubnetAttribute"
+				"ec2:ModifySubnetAttribute",
+				"ec2:AssociateRouteTable",
+				"ec2:DisassociateRouteTable"
 			],
 			"Resource": "arn:aws:ec2:eu-west-2:310829530244:subnet/*"
 		},
@@ -128,7 +130,9 @@
 				"ec2:DescribeVpcAttribute",
 				"ec2:DetachInternetGateway",
 				"ec2:GetSecurityGroupsForVpc",
-				"ec2:ModifyVpcAttribute"
+				"ec2:ModifyVpcAttribute",
+				"ec2:CreateSecurityGroup",
+				"ec2:DeleteSecurityGroup"
 			],
 			"Resource": "arn:aws:ec2:eu-west-2:310829530244:vpc/*"
 		},
