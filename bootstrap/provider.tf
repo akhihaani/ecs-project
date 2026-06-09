@@ -14,9 +14,9 @@ provider "aws" {
 terraform {
   required_version = ">= 1.1.9"
   backend "s3" {
-    bucket         = "memos-tfstate-${var.account_id}"
+    bucket         = "memos-tfstate-310829530244"
     key            = "bootstrap/terraform.tfstate"
-    region         = var.region
+    region         = "eu-west-2"
     dynamodb_table = "terraform-state-locks"
     encrypt        = true
   }

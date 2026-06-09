@@ -20,3 +20,8 @@ variable "github_repo" {
   type = string
   description = "GitHub Repository"
 }
+
+variable "ecr_repo" {
+  type = string
+  description = "ECR Repository URL"
+}

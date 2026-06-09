@@ -144,7 +144,7 @@ resource "aws_iam_role" "memos_github_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:*"
+            "token.actions.githubusercontent.com:sub" = "repo:${var.github_repo}:ref:refs/heads/main"
           }
         }
       },
@@ -156,7 +156,10 @@ resource "aws_iam_role" "memos_github_role" {
 
 resource "aws_iam_policy" "memos_github_tight_policy" {
   name   = "memos_github_tight_policy"
-  policy = file("github-tight-policy.json")
+  policy = templatefile("${path.module}/github-tight-policy.json.tftpl", {
+    region = var.region
+    account_id = var.account_id
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "memos_github_tight_policy_attach" {

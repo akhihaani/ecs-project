@@ -17,7 +17,7 @@ jobs:
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ vars.AWS_ROLE_ARN }}:role/memos_github_role
+          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/memos_github_role
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Install Terraform
@@ -46,11 +46,21 @@ jobs:
         working-directory: infra
         run: terraform apply -auto-approve
 
+      - name: Substitute task definition placeholders
+        env:
+          aws_account: ${{ vars.AWS_ACCOUNT_ID }}
+          region: ${{ vars.AWS_REGION }}
+          ecr_repo: ${{ vars.ECR_REPO }}
+        run: |
+          envsubst '${aws_account} ${region} ${ecr_repo}' \
+            < infra/modules/ecs/task-definition.json \
+            > task-definition.rendered.json
+
       - name: Render task definition
         id: render-task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: infra/modules/ecs/task-definition.json
+          task-definition: task-definition.rendered.json
           container-name: memos
           image: ${{ vars.ECR_REPO }}:${{ github.sha }}
 

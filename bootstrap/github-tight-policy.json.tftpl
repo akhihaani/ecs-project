@@ -73,7 +73,7 @@
 				"acm:DescribeCertificate",
 				"acm:ListTagsForCertificate"
 			],
-			"Resource": "arn:aws:acm:eu-west-2:310829530244:certificate/*"
+			"Resource": "arn:aws:acm:${region}:${account_id}:certificate/*"
 		},
 		{
 			"Effect": "Allow",
@@ -83,7 +83,7 @@
 				"ec2:DeleteInternetGateway",
 				"ec2:DetachInternetGateway"
 			],
-			"Resource": "arn:aws:ec2:eu-west-2:310829530244:internet-gateway/*"
+			"Resource": "arn:aws:ec2:${region}:${account_id}:internet-gateway/*"
 		},
 		{
 			"Effect": "Allow",
@@ -94,7 +94,7 @@
 				"ec2:CreateRouteTable",
 				"ec2:DeleteRouteTable"
 			],
-			"Resource": "arn:aws:ec2:eu-west-2:310829530244:route-table/*"
+			"Resource": "arn:aws:ec2:${region}:${account_id}:route-table/*"
 		},
 		{
 			"Effect": "Allow",
@@ -106,7 +106,7 @@
 				"ec2:CreateSecurityGroup",
 				"ec2:DeleteSecurityGroup"
 			],
-			"Resource": "arn:aws:ec2:eu-west-2:310829530244:security-group/*"
+			"Resource": "arn:aws:ec2:${region}:${account_id}:security-group/*"
 		},
 		{
 			"Effect": "Allow",
@@ -117,7 +117,7 @@
 				"ec2:AssociateRouteTable",
 				"ec2:DisassociateRouteTable"
 			],
-			"Resource": "arn:aws:ec2:eu-west-2:310829530244:subnet/*"
+			"Resource": "arn:aws:ec2:${region}:${account_id}:subnet/*"
 		},
 		{
 			"Effect": "Allow",
@@ -134,7 +134,7 @@
 				"ec2:CreateSecurityGroup",
 				"ec2:DeleteSecurityGroup"
 			],
-			"Resource": "arn:aws:ec2:eu-west-2:310829530244:vpc/*"
+			"Resource": "arn:aws:ec2:${region}:${account_id}:vpc/*"
 		},
 		{
 			"Effect": "Allow",
@@ -148,7 +148,7 @@
 				"ecr:PutImage",
 				"ecr:UploadLayerPart"
 			],
-			"Resource": "arn:aws:ecr:eu-west-2:310829530244:repository/memos"
+			"Resource": "arn:aws:ecr:${region}:${account_id}:repository/memos"
 		},
 		{
 			"Effect": "Allow",
@@ -157,7 +157,7 @@
 				"ecs:DeleteCluster",
 				"ecs:DescribeClusters"
 			],
-			"Resource": "arn:aws:ecs:eu-west-2:310829530244:cluster/*"
+			"Resource": "arn:aws:ecs:${region}:${account_id}:cluster/*"
 		},
 		{
 			"Effect": "Allow",
@@ -167,27 +167,27 @@
 				"ecs:DescribeServices",
 				"ecs:UpdateService"
 			],
-			"Resource": "arn:aws:ecs:eu-west-2:310829530244:service/*/*"
+			"Resource": "arn:aws:ecs:${region}:${account_id}:service/*/*"
 		},
 		{
 			"Effect": "Allow",
 			"Action": "ecs:RegisterTaskDefinition",
-			"Resource": "arn:aws:ecs:eu-west-2:310829530244:task-definition/*:*"
+			"Resource": "arn:aws:ecs:${region}:${account_id}:task-definition/*:*"
 		},
 		{
 			"Effect": "Allow",
 			"Action": "elasticloadbalancing:DeleteListener",
-			"Resource": "arn:aws:elasticloadbalancing:eu-west-2:310829530244:listener/app/*/*/*"
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/app/*/*/*"
 		},
 		{
 			"Effect": "Allow",
 			"Action": "elasticloadbalancing:DeleteListener",
-			"Resource": "arn:aws:elasticloadbalancing:eu-west-2:310829530244:listener/gwy/*/*/*"
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/gwy/*/*/*"
 		},
 		{
 			"Effect": "Allow",
 			"Action": "elasticloadbalancing:DeleteListener",
-			"Resource": "arn:aws:elasticloadbalancing:eu-west-2:310829530244:listener/net/*/*/*"
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:listener/net/*/*/*"
 		},
 		{
 			"Effect": "Allow",
@@ -196,7 +196,7 @@
 				"elasticloadbalancing:DeleteLoadBalancer",
 				"elasticloadbalancing:ModifyLoadBalancerAttributes"
 			],
-			"Resource": "arn:aws:elasticloadbalancing:eu-west-2:310829530244:loadbalancer/*"
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:loadbalancer/*"
 		},
 		{
 			"Effect": "Allow",
@@ -205,7 +205,7 @@
 				"elasticloadbalancing:DeleteTargetGroup",
 				"elasticloadbalancing:ModifyTargetGroupAttributes"
 			],
-			"Resource": "arn:aws:elasticloadbalancing:eu-west-2:310829530244:targetgroup/*/*"
+			"Resource": "arn:aws:elasticloadbalancing:${region}:${account_id}:targetgroup/*/*"
 		},
 		{
 			"Effect": "Allow",
@@ -213,7 +213,7 @@
 				"kms:CreateGrant",
 				"kms:DescribeKey"
 			],
-			"Resource": "arn:aws:kms:eu-west-2:310829530244:key/*"
+			"Resource": "arn:aws:kms:${region}:${account_id}:key/*"
 		},
 		{
 			"Effect": "Allow",
@@ -221,7 +221,7 @@
 				"logs:CreateLogGroup",
 				"logs:DeleteLogGroup"
 			],
-			"Resource": "arn:aws:logs:eu-west-2:310829530244:log-group:*"
+			"Resource": "arn:aws:logs:${region}:${account_id}:log-group:*"
 		},
 		{
 			"Effect": "Allow",
@@ -242,8 +242,8 @@
 				"s3:GetReplicationConfiguration"
 			],
 			"Resource": [
-				"arn:aws:s3:::memos-tfstate-310829530244",
-				"arn:aws:s3:::memos-lb-logs-310829530244"
+				"arn:aws:s3:::memos-tfstate-${account_id}",
+				"arn:aws:s3:::memos-lb-logs-${account_id}"
 			]
 		},
 		{
@@ -254,8 +254,8 @@
 				"s3:DeleteObject"
 			],
 			"Resource": [
-				"arn:aws:s3:::memos-tfstate-310829530244/*",
-				"arn:aws:s3:::memos-lb-logs-310829530244/*"
+				"arn:aws:s3:::memos-tfstate-${account_id}/*",
+				"arn:aws:s3:::memos-lb-logs-${account_id}/*"
 			]
 		},
 		{
@@ -265,7 +265,7 @@
 				"dynamodb:PutItem",
 				"dynamodb:DeleteItem"
 			],
-			"Resource": "arn:aws:dynamodb:eu-west-2:310829530244:table/terraform-state-locks"
+			"Resource": "arn:aws:dynamodb:${region}:${account_id}:table/terraform-state-locks"
 		}
 	]
 }

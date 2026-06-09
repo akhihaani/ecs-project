@@ -1,0 +1,7 @@
+unstructured-notes.txt
+node_modules
+build.log
+terraform.tfstate
+.terraform
+terraform.tfstate.backup
+task-definition.rendered.json

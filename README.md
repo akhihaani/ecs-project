@@ -80,6 +80,7 @@ What to include:
 the dense part. Walk through bootstrap → NS records in Cloudflare → infra apply → CI/CD.
 Be honest about what's manual.
 
+## Cloud Set-Up
 **Pre-Requisities**:
 First you need to have an AWS account and you need to configure it to your local Command Line Interface.
 
@@ -94,7 +95,11 @@ Fork the github repository and pull it to your working folder
 Use:
 git clone --recurse-submodules <your-fork-url>
 
+brew install gh (If you don't already have it installed)
+gh auth login
 
+./setup.sh
+(This will make the project hold your specific variables)
 
 **Bootstrap**:
 Use:
@@ -127,8 +132,7 @@ Certificate validation can take 10-15 minutes, so you will need to wait
 Visit [https://<domain-name>] and check if it is working
 [https://<domain-name>/healthz] can be used for health status checking
 
----
-
+## Local Set-Up
 (Also how to set up locally)
 
 ## APP Demo Video

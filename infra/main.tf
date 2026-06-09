@@ -37,4 +37,5 @@ module "ecs" {
   memos_ecs_task_sg         = module.vpc.memos_ecs_task_sg
   memos_public_subnets      = module.vpc.memos_public_subnets
   region = var.region
+  aws_account = var.account_id
 }

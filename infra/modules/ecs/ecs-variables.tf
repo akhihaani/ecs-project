@@ -23,3 +23,11 @@ variable "memos_public_subnets" {
 variable "region" {
   type = string
 }
+
+variable "aws_account" {
+  type = string
+}
+
+variable "ecr_repo" {
+  type = string
+}
