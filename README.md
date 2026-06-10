@@ -58,54 +58,70 @@ https://memos.abuniyyah.uk
 ```
 
 # Architecture Diagram
-(Draw.io)
 
-What to include:
-- VPC
-- Subnets (+ Three AZs clearly labeled (eu-west-2a/b/c))
-- ALB
-- ECS
-- ECR
-- ACM
-- Cloudflare → Route53 NS delegation (the subdomain handoff)
-- Two scopes side-by-side: bootstrap (S3 state, DynamoDB lock, Route53 zone, ECR repo OIDC provider + IAM role) vs infra (VPC, ALB, ECS, ACM, etc.)
-- GitHub Actions → OIDC → IAM role trust relationship (label as OIDC, no static keys)
-- The data flow: user → Cloudflare DNS → Route53 → ALB → ECS task in private container
-- Security groups as boundaries (ALB SG and ECS SG) — usually shown as dashed boxes around resources
-- The two S3 buckets: state bucket and ALB logs bucket
-- The CloudWatch log group the container writes to
+### Scope 1 — Bootstrap
+![Bootstrap architecture: state bucket, lock table, ECR, Route53 zone, OIDC role](documents/memos-arch-diagram-scope1.png)
+
+### Scope 2 — Infrastructure
+![Infrastructure architecture: VPC, ALB, ECS Fargate, ACM, DNS flow](documents/memos-architecture-scope2.png)
 
 
 # Reproduction Instructions
 the dense part. Walk through bootstrap → NS records in Cloudflare → infra apply → CI/CD.
-Be honest about what's manual.
 
 ## Cloud Set-Up
 **Pre-Requisities**:
 First you need to have an AWS account and you need to configure it to your local Command Line Interface.
 
 CLI configuration:
-(I dont know how to configure AWS on my CLI, i didnt know i even did this)
+First download the AWS CLI if you do not already have it
+Then:
+```
+aws configure
+```
+Follow the prompts and enter the following details:
+- 1. AWS Access Key ID: Paste the Access Key associated with your IAM user 
+- 2. AWS Secret Access Key: Paste the Secret Key associated with your IAM user
+- 3. Default Region Name: e.g. 'eu-west-2'
+- 4. Default Output Format: JSON
 
+Domain:
 You also need to own a domain
 Go to any domain registrar, such as cloudflare, and purchase a domain.
 
+Github Repository:
 Fork the github repository and pull it to your working folder
 
 Use:
+```
 git clone --recurse-submodules <your-fork-url>
+cd <your-fork>
+```
 
-brew install gh (If you don't already have it installed)
+```
 gh auth login
+```
+(install 'gh' with your package manager if you do not already have it)
 
+```
 ./setup.sh
+```
 (This will make the project hold your specific variables)
 
 **Bootstrap**:
 Use:
+```
 cd bootstrap
 terraform init
 terraform apply
+```
+
+Rename 'bootstrap/backend.tf.disabled' to 'bootstrap/backend.tf'
+Run:
+```
+terraform init -migrate-state
+terraform apply
+```
 
 **Manual**:
 - From the output of the bootstrap terraform apply, 4 nameservers are outputted
@@ -114,7 +130,9 @@ terraform apply
 
 **build.yaml**:
 Use:
+```
 git push origin main
+```
 
 This will activate the build.yaml workflow
 which will create a docker image and push it to Amazon ECR
@@ -128,12 +146,39 @@ This can only be done manually
 
 Certificate validation can take 10-15 minutes, so you will need to wait
 
+**terminal commands**:
+You can use the following commands to run the workflows from the terminal:
+```
+gh workflow run build.yaml
+gh workflow run deploy.yaml
+gh workflow run destroy.yaml
+```
+
+You can also monitor your workflows from the terminal using:
+```
+gh run list
+# See recent runts + their status
+gh run watch
+# live-follow the latest run until it finishes
+gh run view view --log
+# Full logs of a run
+```
+
 **verify**:
 Visit [https://<domain-name>] and check if it is working
 [https://<domain-name>/healthz] can be used for health status checking
 
 ## Local Set-Up
-(Also how to set up locally)
+Open docker engine
+
+Run in terminal:
+```
+docker build -t memos -f dockerfile ./memos
+docker run --rm --name memos -p 8081:8081 -v ~/.memos:/var/opt/memos memos
+```
+
+Visit 'http://localhost:8081' to use your container
+Healthcheck: 'http://localhost:8081/healthz'
 
 ## APP Demo Video
 

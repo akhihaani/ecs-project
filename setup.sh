@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail          # exit on error / unset var / failed pipe — safety net
+set -euo pipefail
 
 # --- 1. Ask the porter for their 4 values ---
 read -rp "AWS account ID: " ACCOUNT_ID
@@ -7,7 +7,7 @@ read -rp "AWS region (e.g. eu-west-2): " REGION
 read -rp "Domain (e.g. memos.example.com): " DOMAIN
 read -rp "GitHub repo (owner/repo): " REPO
 
-# --- 2. The author's CURRENT values (what's in a fresh clone) ---
+# --- 2. The author's CURRENT values ---
 OLD_ACCOUNT="310829530244"
 OLD_REGION="eu-west-2"
 OLD_DOMAIN="memos.abuniyyah.uk"
@@ -17,8 +17,8 @@ OLD_REPO="akhihaani/ecs-project"
 FILES=(
   bootstrap/terraform.tfvars
   infra/terraform.tfvars
-  bootstrap/provider.tf      # backend block
-  infra/backend.tf           # backend block
+  bootstrap/backend.tf.disabled
+  infra/backend.tf
 )
 
 # --- 4. Swap old -> new in each file ---
@@ -29,7 +29,7 @@ for f in "${FILES[@]}"; do
     -e "s|${OLD_DOMAIN}|${DOMAIN}|g" \
     -e "s|${OLD_REPO}|${REPO}|g" \
     "$f"
-  rm "${f}.bak"             # delete the backup sed made
+  rm "${f}.bak"
 done
 
 # --- 5. Set the GitHub Actions variables (derived from the same inputs) ---
