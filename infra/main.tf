@@ -38,4 +38,5 @@ module "ecs" {
   memos_public_subnets      = module.vpc.memos_public_subnets
   region = var.region
   aws_account = var.account_id
+  ecr_repo = var.ecr_repo
 }
